@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<unattend xmlns="urn:schemas-microsoft-com:unattend">
+  <!-- Set a random computer name during specialize -->
+  <settings pass="specialize">
+    <component name="Microsoft-Windows-Shell-Setup"
+               processorArchitecture="amd64"
+               publicKeyToken="31bf3856ad364e35"
+               language="neutral"
+               versionScope="nonSxS">
+      <!-- A single asterisk instructs Windows to generate a unique/random computer name -->
+      <ComputerName>*</ComputerName>
+    </component>
+  </settings>
+
+  <!-- OOBE pass: skip pages and create the local account -->
+  <settings pass="oobeSystem">
+    <component name="Microsoft-Windows-Shell-Setup"
+               processorArchitecture="amd64"
+               publicKeyToken="31bf3856ad364e35"
+               language="neutral"
+               versionScope="nonSxS">
+
+      <OOBE>
+        <HideEULAPage>true</HideEULAPage>
+        <NetworkLocation>Work</NetworkLocation>
+        <ProtectYourPC>3</ProtectYourPC>
+        <HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
+        <SkipMachineOOBE>true</SkipMachineOOBE>
+        <SkipUserOOBE>true</SkipUserOOBE>
+      </OOBE>
+
+      <!-- Local account creation (blank password) -->
+      <UserAccounts>
+        <LocalAccounts>
+          <LocalAccount wcm:action="add">
+            <Password>
+              <!-- Intentionally blank password value -->
+              <Value></Value>
+              <PlainText>true</PlainText>
+            </Password>
+            <Description>Local admin created by unattend</Description>
+            <DisplayName>User</DisplayName>
+            <Group>Administrators</Group>
+            <Name>User</Name>
+          </LocalAccount>
+        </LocalAccounts>
+      </UserAccounts>
+
+    </component>
+  </settings>
+
+  <!-- Do nothing in the auditSystem/pass unless you need it -->
+  <cpi:offlineImage cpi:source="wim:c:/images/install.wim#Windows" xmlns:cpi="urn:schemas-microsoft-com:cpi" />
+</unattend>
+
